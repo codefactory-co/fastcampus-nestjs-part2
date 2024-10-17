@@ -10,6 +10,8 @@ services:
     depends_on:
       postgres_user:
         condition: service_healthy
+    env_file:
+      - ./apps/user/.env
     ports:
       - '3001:3000'
     volumes:
