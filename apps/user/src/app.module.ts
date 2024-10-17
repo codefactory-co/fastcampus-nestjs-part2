@@ -10,6 +10,8 @@ import { TypeOrmModule } from "@nestjs/typeorm";
         ConfigModule.forRoot({
             isGlobal: true,
             validationSchema: Joi.object({
+                REFRESH_TOKEN_SECRET: Joi.string().required(),
+                ACCESS_TOKEN_SECRET: Joi.string().required(),
                 HTTP_PORT: Joi.number().required(),
                 DB_URL: Joi.string().required(),
             })
