@@ -34,7 +34,7 @@ export class AuthController {
   })
   @UsePipes(ValidationPipe)
   parseBearerToken(@Payload() payload: ParseBearerTokenDto){
-    throw new RpcException('에러 났습니다!');
+    console.log('requets received')
     return this.authService.parseBearerToken(payload.token, false);
   }
 }
