@@ -5,7 +5,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import * as Joi from 'joi';
 import { MongooseModule } from "@nestjs/mongoose";
 import { ClientsModule, Transport } from "@nestjs/microservices";
-import { USER_SERVICE } from "@app/common";
+import { PRODUCT_SERVICE, USER_SERVICE } from "@app/common";
 
 @Module({
     imports: [
@@ -36,7 +36,18 @@ import { USER_SERVICE } from "@app/common";
                         }
                     }),
                     inject: [ConfigService]
-                }
+                },
+                {
+                    name: PRODUCT_SERVICE,
+                    useFactory: (configService: ConfigService)=> ({
+                        transport: Transport.TCP,
+                        options: {
+                            host: configService.getOrThrow<string>('PRODUCT_HOST'),
+                            port: configService.getOrThrow<number>('PRODUCT_TCP_PORT'),
+                        }
+                    }),
+                    inject: [ConfigService]
+                },
             ],
             isGlobal: true,
         }),
