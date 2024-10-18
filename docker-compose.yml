@@ -102,3 +102,71 @@ services:
       timeout: 5s
       retries: 10
       start_period: 5s
+
+  payment:
+    build:
+      context: .
+      dockerfile: ./apps/payment/Dockerfile
+      target: development
+    command: pnpm run start:dev payment
+    depends_on:
+      postgres_payment:
+        condition: service_healthy
+    env_file:
+      - ./apps/payment/.env
+    ports:
+      - '3004:3000'
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+
+  postgres_payment:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - '6005:5432'
+    volumes:
+      - ./postgres/payment:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+
+  notification:
+    build:
+      context: .
+      dockerfile: ./apps/notification/Dockerfile
+      target: development
+    command: pnpm run start:dev notification
+    depends_on:
+      mongo_notification:
+        condition: service_healthy
+    env_file:
+      - ./apps/notification/.env
+    ports:
+      - '3006:3000'
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+
+  mongo_notification:
+    image: mongo:8
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongo
+      MONGO_INITDB_ROOT_PASSWORD: mongo
+    ports:
+      - '6006:27017'
+    volumes:
+      - ./mongo/notification:/data/lib
+    command: mongod --quiet --logpath /dev/null
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
