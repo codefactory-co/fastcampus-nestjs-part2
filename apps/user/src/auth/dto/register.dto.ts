@@ -9,8 +9,6 @@ export class RegisterDto {
     @IsNotEmpty()
     age: number;
 
-    /// 사용자에 대한 설명
-    /// 직접 작성함
     @IsString()
     @IsNotEmpty()
     profile: string;
