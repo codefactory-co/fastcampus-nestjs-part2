@@ -12,6 +12,9 @@ import { NotificationModule } from "./notification/notification.module";
             isGlobal: true,
             validationSchema: Joi.object({
                 DB_URL: Joi.string().required(),
+                TCP_PORT: Joi.number().required(),
+                ORDER_HOST: Joi.string().required(),
+                ORDER_TCP_PORT: Joi.string().required(),
             })
         }),
         MongooseModule.forRootAsync({

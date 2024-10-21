@@ -13,6 +13,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
                 REFRESH_TOKEN_SECRET: Joi.string().required(),
                 ACCESS_TOKEN_SECRET: Joi.string().required(),
                 HTTP_PORT: Joi.number().required(),
+                TCP_PORT: Joi.number().required(),
                 DB_URL: Joi.string().required(),
             })
         }),

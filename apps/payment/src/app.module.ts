@@ -12,6 +12,9 @@ import { NOTIFICATION_SERVICE } from "@app/common";
             isGlobal: true,
             validationSchema: Joi.object({
                 DB_URL: Joi.string().required(),
+                TCP_PORT: Joi.number().required(),
+                NOTIFICATION_HOST: Joi.string().required(),
+                NOTIFICATION_TCP_PORT: Joi.number().required()
             })
         }),
         TypeOrmModule.forRootAsync({

@@ -13,6 +13,7 @@ import { PAYMENT_SERVICE, PRODUCT_SERVICE, USER_SERVICE } from "@app/common";
             isGlobal: true,
             validationSchema: Joi.object({
                 HTTP_PORT: Joi.number().required(),
+                TCP_PORT: Joi.number().required(),
                 USER_HOST: Joi.string().required(),
                 USER_TCP_PORT: Joi.number().required(),
                 DB_URL: Joi.string().required(),
