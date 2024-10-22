@@ -21,4 +21,9 @@ export class OrderController {
   async deliveryStarted(@Payload() payload: DeliveryStartedDto){
     await this.orderService.changeOrderStatus(payload.id, OrderStatus.deliveryStarted);
   }
+
+  @MessagePattern({cmd: 'create_order'})
+  async createOrder(@Payload() createOrderDto: CreateOrderDto) {
+    return this.orderService.createOrder(createOrderDto);
+  }
 }
