@@ -26,8 +26,6 @@ services:
         condition: service_healthy
     env_file:
       - ./apps/user/.env
-    ports:
-      - '3001:3000'
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
@@ -60,8 +58,6 @@ services:
         condition: service_healthy
     env_file:
       - ./apps/product/.env
-    ports:
-      - '3002:3000'
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
@@ -94,8 +90,6 @@ services:
         condition: service_healthy
     env_file:
       - ./apps/order/.env
-    ports:
-      - '3003:3000'
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
@@ -128,8 +122,6 @@ services:
         condition: service_healthy
     env_file:
       - ./apps/payment/.env
-    ports:
-      - '3004:3000'
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
@@ -162,8 +154,6 @@ services:
         condition: service_healthy
     env_file:
       - ./apps/notification/.env
-    ports:
-      - '3006:3000'
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
