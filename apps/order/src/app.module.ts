@@ -34,10 +34,13 @@ import { PAYMENT_SERVICE, PRODUCT_SERVICE, USER_SERVICE } from "@app/common";
                 {
                     name: USER_SERVICE,
                     useFactory: (configService: ConfigService) => ({
-                        transport: Transport.REDIS,
+                        transport: Transport.RMQ,
                         options: {
-                            host: 'redis',
-                            port: 6379,
+                            urls: ['amqp://rabbitmq:5672'],
+                            queue: 'user_queue',
+                            queueOptions: {
+                                durable: false,
+                            }
                         }
                     }),
                     inject: [ConfigService]
@@ -45,10 +48,13 @@ import { PAYMENT_SERVICE, PRODUCT_SERVICE, USER_SERVICE } from "@app/common";
                 {
                     name: PRODUCT_SERVICE,
                     useFactory: (configService: ConfigService) => ({
-                        transport: Transport.REDIS,
+                        transport: Transport.RMQ,
                         options: {
-                            host: 'redis',
-                            port: 6379,
+                            urls: ['amqp://rabbitmq:5672'],
+                            queue: 'product_queue',
+                            queueOptions: {
+                                durable: false,
+                            }
                         }
                     }),
                     inject: [ConfigService]
@@ -56,10 +62,13 @@ import { PAYMENT_SERVICE, PRODUCT_SERVICE, USER_SERVICE } from "@app/common";
                 {
                     name: PAYMENT_SERVICE,
                     useFactory: (configService: ConfigService) => ({
-                        transport: Transport.REDIS,
+                        transport: Transport.RMQ,
                         options: {
-                            host: 'redis',
-                            port: 6379,
+                            urls: ['amqp://rabbitmq:5672'],
+                            queue: 'payment_queue',
+                            queueOptions: {
+                                durable: false,
+                            }
                         }
                     }),
                     inject: [ConfigService]

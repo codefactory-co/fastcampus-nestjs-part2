@@ -26,10 +26,13 @@ import { BearerTokenMiddleware } from "./auth/middleware/bearer-token.middleware
                 {
                     name: USER_SERVICE,
                     useFactory: (configService: ConfigService) => ({
-                        transport: Transport.REDIS,
+                        transport: Transport.RMQ,
                         options: {
-                            host: 'redis',
-                            port: 6379,
+                            urls: ['amqp://rabbitmq:5672'],
+                            queue: 'user_queue',
+                            queueOptions: {
+                                durable: false,
+                            }
                         }
                     }),
                     inject: [ConfigService]
@@ -37,10 +40,13 @@ import { BearerTokenMiddleware } from "./auth/middleware/bearer-token.middleware
                 {
                     name: PRODUCT_SERVICE,
                     useFactory: (configService: ConfigService) => ({
-                        transport: Transport.REDIS,
+                        transport: Transport.RMQ,
                         options: {
-                            host: 'redis',
-                            port: 6379,
+                            urls: ['amqp://rabbitmq:5672'],
+                            queue: 'product_queue',
+                            queueOptions: {
+                                durable: false,
+                            }
                         }
                     }),
                     inject: [ConfigService]
@@ -48,10 +54,13 @@ import { BearerTokenMiddleware } from "./auth/middleware/bearer-token.middleware
                 {
                     name: ORDER_SERVICE,
                     useFactory: (configService: ConfigService) => ({
-                        transport: Transport.REDIS,
+                        transport: Transport.RMQ,
                         options: {
-                            host: 'redis',
-                            port: 6379,
+                            urls: ['amqp://rabbitmq:5672'],
+                            queue: 'order_queue',
+                            queueOptions: {
+                                durable: false,
+                            }
                         }
                     }),
                     inject: [ConfigService]

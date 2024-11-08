@@ -175,5 +175,5 @@ services:
       retries: 10
       start_period: 5s
 
-  redis:
-    image: redis:7
+  rabbitmq:
+    image: rabbitmq:4
