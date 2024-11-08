@@ -31,10 +31,10 @@ import { NOTIFICATION_SERVICE } from "@app/common";
                 {
                     name: NOTIFICATION_SERVICE,
                     useFactory: (configService: ConfigService) => ({
-                        transport: Transport.TCP,
+                        transport: Transport.REDIS,
                         options: {
-                            host: configService.getOrThrow<string>('NOTIFICATION_HOST'),
-                            port: configService.getOrThrow<number>('NOTIFICATION_TCP_PORT'),
+                            host: 'redis',
+                            port: 6379,
                         }
                     }),
                     inject: [ConfigService]
