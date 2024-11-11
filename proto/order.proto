@@ -1,0 +1,85 @@
+syntax = "proto3";
+
+package order;
+
+service OrderService {
+    rpc DeliveryStarted(DeliveryStartedRequest) returns (DeliveryStartedResponse);
+    rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse);
+}
+
+message DeliveryStartedRequest {
+    string id = 1;
+}
+
+message DeliveryStartedResponse {
+
+}
+
+message CreateOrderRequest {
+    message Meta {
+        message UserPayload {
+            string sub = 1;
+        }
+
+        UserPayload user = 1;
+    }
+
+    message Address {
+        string name = 1;
+        string street = 2;
+        string city = 3;
+        string postalCode = 4;
+        string country = 5;
+    }
+
+    message Payment {
+        string paymentMethod = 1;
+        string paymentName = 2;
+        string cardNumber = 3;
+        string expiryYear = 4;
+        string expiryMonth = 5;
+        string birthOrRegistration = 6;
+        string passwordTwoDigits = 7;
+        double amount = 8;
+    }
+
+    Meta meta = 1;
+    repeated string productIds = 2;
+    Address address = 3;
+    Payment payment = 4;
+}
+
+message CreateOrderResponse {
+    message Customer {
+        string userId = 1;
+        string email = 2;
+        string name = 3;
+    }
+
+    message Product {
+        string productId = 1;
+        string name = 2;
+        double price = 3;
+    }
+
+    message DeliveryAddress {
+        string name = 1;
+        string street = 2;
+        string city = 3;
+        string postalCode = 4;
+        string country = 5;
+    }
+
+    message Payment {
+        string paymentId = 1;
+        string paymentMethod = 2;
+        string paymentName = 3;
+        double amount = 4;
+    }
+
+    Customer customer = 1;
+    repeated Product products = 2;
+    DeliveryAddress deliveryAddress = 3;
+    string status = 4;
+    Payment payment = 5;
+}

@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package payment;
+
+service PaymentService {
+    rpc MakePayment(MakePaymentRequest) returns (MakePaymentResponse);
+}
+
+message MakePaymentRequest {
+    string orderId = 1;
+    string paymentMethod = 2;
+    string paymentName = 3;
+    string cardNumber = 4;
+    string expiryYear = 5;
+    string expiryMonth = 6;
+    string birthOrRegistration = 7;
+    float amount = 8;
+    string userEmail = 9;
+    string passwordTwoDigits = 10;
+}
+
+message MakePaymentResponse {
+    string id = 1;
+    string paymentStatus = 2;
+    string paymentMethod = 3;
+}

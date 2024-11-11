@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package notification;
+
+service NotificationService {
+    rpc SendPaymentNotification(SendPaymentNotificationRequest) returns (SendPaymentNotificationResponse);
+}
+
+message SendPaymentNotificationRequest {
+    string to = 1;
+    string orderId = 2;
+}
+
+message SendPaymentNotificationResponse {
+    string from = 1;
+    string to = 2;
+    string subject = 3;
+    string content = 4;
+    string notificationStatus = 5;
+}
