@@ -1,10 +1,11 @@
-import { ORDER_SERVICE } from "@app/common";
+import { ORDER_SERVICE, OrderMicroservice } from "@app/common";
 import { Module } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { ClientsModule, Transport } from "@nestjs/microservices";
 import { MongooseModule } from "@nestjs/mongoose";
 import * as Joi from 'joi';
 import { NotificationModule } from "./notification/notification.module";
+import { join } from "path";
 
 @Module({
     imports: [
@@ -28,13 +29,11 @@ import { NotificationModule } from "./notification/notification.module";
                 {
                     name: ORDER_SERVICE,
                     useFactory: (configService: ConfigService) => ({
-                        transport: Transport.RMQ,
+                        transport: Transport.GRPC,
                         options: {
-                            urls: ['amqp://rabbitmq:5672'],
-                            queue: 'order_queue',
-                            queueOptions: {
-                                durable: false,
-                            }
+                          package: OrderMicroservice.protobufPackage,
+                          protoPath: join(process.cwd(), 'proto/order.proto'),
+                          url: configService.getOrThrow('GRPC_URL'),
                         }
                     }),
                     inject: [ConfigService]

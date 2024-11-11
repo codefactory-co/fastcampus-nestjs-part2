@@ -16,5 +16,5 @@ message SendPaymentNotificationResponse {
     string to = 2;
     string subject = 3;
     string content = 4;
-    string notificationStatus = 5;
+    string status = 5;
 }

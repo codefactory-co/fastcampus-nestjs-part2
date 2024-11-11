@@ -21,7 +21,7 @@ export interface SendPaymentNotificationResponse {
   to: string;
   subject: string;
   content: string;
-  notificationStatus: string;
+  status: string;
 }
 
 export const NOTIFICATION_PACKAGE_NAME = "notification";
