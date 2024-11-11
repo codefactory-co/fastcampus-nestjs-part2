@@ -10,10 +10,10 @@ import { PaymentMethod } from './entity/payment.entity';
 export class PaymentController implements PaymentMicroservice.PaymentServiceController {
   constructor(private readonly paymentService: PaymentService) { }
 
-  makePayment(payload: PaymentMicroservice.MakePaymentRequest) {
+  makePayment(request: PaymentMicroservice.MakePaymentRequest) {
     return this.paymentService.makePayment({
-      ...payload,
-      paymentMethod: payload.paymentMethod as PaymentMethod,
+      ...request,
+      paymentMethod: request.paymentMethod as PaymentMethod,
     });
   }
 }

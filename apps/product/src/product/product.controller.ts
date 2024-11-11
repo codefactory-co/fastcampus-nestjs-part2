@@ -17,8 +17,8 @@ export class ProductController implements ProductMicroservice.ProductServiceCont
     }
   }
 
-  async getProductsInfo(@Payload() data: GetProductsInfo) {
-    const resp = await this.productService.getProductsInfo(data.productIds);
+  async getProductsInfo(request: GetProductsInfo) {
+    const resp = await this.productService.getProductsInfo(request.productIds);
 
     return {
       products: resp,

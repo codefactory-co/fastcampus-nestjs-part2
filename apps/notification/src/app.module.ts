@@ -33,7 +33,7 @@ import { join } from "path";
                         options: {
                           package: OrderMicroservice.protobufPackage,
                           protoPath: join(process.cwd(), 'proto/order.proto'),
-                          url: configService.getOrThrow('GRPC_URL'),
+                          url: configService.getOrThrow('ORDER_GRPC_URL'),
                         }
                     }),
                     inject: [ConfigService]

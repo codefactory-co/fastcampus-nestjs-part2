@@ -8,8 +8,8 @@ import { SendPaymentNotificationDto } from './dto/send-payment-notification.dto'
 export class NotificationController implements NotificationMicroservice.NotificationServiceController {
   constructor(private readonly notificationService: NotificationService) { }
 
-  async sendPaymentNotification(@Payload() payload: SendPaymentNotificationDto) {
-    const resp = (await this.notificationService.sendPaymentNotification(payload)).toJSON();
+  async sendPaymentNotification(request: SendPaymentNotificationDto) {
+    const resp = (await this.notificationService.sendPaymentNotification(request)).toJSON();
 
     return {
       ...resp,

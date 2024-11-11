@@ -18,7 +18,6 @@ export class AuthController {
 
   @Post('login')
   loginUser(@Authorization() token: string){
-    console.log('login');
     if(token === null){
       throw new UnauthorizedException('토큰을 입력해주세요!')
     }
