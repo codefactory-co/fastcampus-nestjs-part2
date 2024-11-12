@@ -6,11 +6,12 @@ import { RegisterDto } from './dto/register.dto';
 import { ParseBearerTokenDto } from './dto/parse-bearer-token.dto';
 import { RpcInterceptor } from '@app/common/interceptor/rpc.interceptor';
 import { LoginDto } from './dto/login.dto';
-import { UserMicroservice } from '@app/common'
+import { GrpcInterceptor, UserMicroservice } from '@app/common'
 import { Metadata } from '@grpc/grpc-js';
 
 @Controller('auth')
 @UserMicroservice.AuthServiceControllerMethods()
+@UseInterceptors(GrpcInterceptor)
 export class AuthController implements UserMicroservice.AuthServiceController {
   constructor(private readonly authService: AuthService) { }
 
@@ -29,8 +30,6 @@ export class AuthController implements UserMicroservice.AuthServiceController {
   }
 
   loginUser(request: UserMicroservice.LoginUserRequest, metadata: Metadata) {
-    console.log(metadata);
-
     const { token } = request;
     if (token === null) {
       throw new UnauthorizedException('토큰을 입력해주세요!')

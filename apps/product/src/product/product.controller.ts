@@ -3,10 +3,11 @@ import { ProductService } from './product.service';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { GetProductsInfo } from './dto/get-products-info.dto';
 import { RpcInterceptor } from '@app/common/interceptor/rpc.interceptor';
-import { ProductMicroservice } from '@app/common';
+import { GrpcInterceptor, ProductMicroservice } from '@app/common';
 
 @Controller('product')
 @ProductMicroservice.ProductServiceControllerMethods()
+@UseInterceptors(GrpcInterceptor)
 export class ProductController implements ProductMicroservice.ProductServiceController {
   constructor(private readonly productService: ProductService) { }
 

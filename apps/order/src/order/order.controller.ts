@@ -2,13 +2,15 @@ import { Body, Controller, Get, Post, UseInterceptors, UsePipes, ValidationPipe 
 import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { EventPattern, MessagePattern, Payload } from '@nestjs/microservices';
-import { OrderMicroservice, RpcInterceptor } from '@app/common';
+import { GrpcInterceptor, OrderMicroservice, RpcInterceptor } from '@app/common';
 import { DeliveryStartedDto } from './dto/delivery-started.dto';
 import { OrderStatus } from './entity/order.entity';
 import { PaymentMethod } from './entity/payment.entity';
+import { Metadata } from '@grpc/grpc-js';
 
 @Controller('order')
 @OrderMicroservice.OrderServiceControllerMethods()
+@UseInterceptors(GrpcInterceptor)
 export class OrderController implements OrderMicroservice.OrderServiceController {
   constructor(private readonly orderService: OrderService) { }
 
@@ -16,13 +18,13 @@ export class OrderController implements OrderMicroservice.OrderServiceController
     await this.orderService.changeOrderStatus(request.id, OrderStatus.deliveryStarted);
   }
 
-  async createOrder(request: OrderMicroservice.CreateOrderRequest) {
+  async createOrder(request: OrderMicroservice.CreateOrderRequest, metadata: Metadata) {
     return this.orderService.createOrder({
       ...request,
       payment: {
         ...request.payment,
         paymentMethod: request.payment.paymentMethod as PaymentMethod
       }
-    });
+    }, metadata);
   }
 }

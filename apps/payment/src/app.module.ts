@@ -6,6 +6,7 @@ import { PaymentModule } from "./payment/payment.module";
 import { ClientsModule, Transport } from "@nestjs/microservices";
 import { NOTIFICATION_SERVICE, NotificationMicroservice } from "@app/common";
 import { join } from "path";
+import { traceInterceptor } from "@app/common";
 
 @Module({
     imports: [
@@ -19,7 +20,7 @@ import { join } from "path";
             })
         }),
         TypeOrmModule.forRootAsync({
-            useFactory: (configService: ConfigService)=> ({
+            useFactory: (configService: ConfigService) => ({
                 type: 'postgres',
                 url: configService.getOrThrow('DB_URL'),
                 autoLoadEntities: true,
@@ -34,9 +35,12 @@ import { join } from "path";
                     useFactory: (configService: ConfigService) => ({
                         transport: Transport.GRPC,
                         options: {
-                          package: NotificationMicroservice.protobufPackage,
-                          protoPath: join(process.cwd(), 'proto/notification.proto'),
-                          url: configService.getOrThrow('NOTIFICATION_GRPC_URL'),
+                            channelOptions: {
+                                interceptors: [traceInterceptor('Payment')],
+                            },
+                            package: NotificationMicroservice.protobufPackage,
+                            protoPath: join(process.cwd(), 'proto/notification.proto'),
+                            url: configService.getOrThrow('NOTIFICATION_GRPC_URL'),
                         }
                     }),
                     inject: [ConfigService]
