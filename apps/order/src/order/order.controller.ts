@@ -8,6 +8,7 @@ import { OrderStatus } from './entity/order.entity';
 import { PaymentMethod } from './entity/payment.entity';
 
 @Controller('order')
+@OrderMicroservice.OrderServiceControllerMethods()
 export class OrderController implements OrderMicroservice.OrderServiceController {
   constructor(private readonly orderService: OrderService) { }
 

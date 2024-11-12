@@ -6,6 +6,7 @@ import { RpcInterceptor } from '@app/common/interceptor/rpc.interceptor';
 import { ProductMicroservice } from '@app/common';
 
 @Controller('product')
+@ProductMicroservice.ProductServiceControllerMethods()
 export class ProductController implements ProductMicroservice.ProductServiceController {
   constructor(private readonly productService: ProductService) { }
 
