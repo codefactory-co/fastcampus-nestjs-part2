@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    apps: nginx-app
+    type: back-end
+
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: nginx-app
+        type: back-end
+    spec:
+      containers:
+        - name: nginx-container
+          image: nginx
+          ports:
+            - containerPort: 80
+  selector:
+    matchLabels:
+      app: nginx-app
+      type: back-end
