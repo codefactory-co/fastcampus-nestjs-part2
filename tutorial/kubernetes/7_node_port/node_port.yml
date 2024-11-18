@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  selector:
+    app: nginx-app
+  type: NodePort
+  ports:
+    - port: 80 # Service의 포트
+      targetPort: 80 # Container의 포트
+      nodePort: 30080 # External NodePort
