@@ -1,0 +1,10 @@
+replicaCount: 3
+
+image:
+  repository: nginx
+  tag: "1.21"
+
+service:
+  port: 80
+
+environment: "development"
