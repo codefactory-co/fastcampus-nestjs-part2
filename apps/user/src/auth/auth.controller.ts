@@ -1,6 +1,5 @@
 import { Body, Controller, Post, UnauthorizedException, UseInterceptors, UsePipes, ValidationPipe } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { Authorization } from '../../../gateway/src/auth/decorator/authorization.decorator';
 import { EventPattern, MessagePattern, Payload, RpcException } from '@nestjs/microservices';
 import { RegisterDto } from './dto/register.dto';
 import { ParseBearerTokenDto } from './dto/parse-bearer-token.dto';

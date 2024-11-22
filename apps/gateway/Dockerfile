@@ -14,7 +14,7 @@ RUN npm i -g pnpm
 RUN pnpm i
 
 # 프로젝트 빌드에 필요한 폴더 이동하기
-COPY app/gateway app/gateway
+COPY apps/gateway apps/gateway
 COPY libs libs
 
 RUN pnpm build gateway
