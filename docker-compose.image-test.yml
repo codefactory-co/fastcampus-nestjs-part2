@@ -1,0 +1,134 @@
+version: '3.1'
+
+services:
+  gateway:
+    image: codefactoryofficial/fc-nestjs-gateway
+    env_file:
+      - ./apps/gateway/.env
+    ports:
+      - '3000:3000'
+
+  user:
+    image: codefactoryofficial/fc-nestjs-user
+    depends_on:
+      postgres_user:
+        condition: service_healthy
+    env_file:
+      - ./apps/user/.env
+
+  postgres_user:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - '6001:5432'
+    volumes:
+      - ./postgres/user:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+
+  product:
+    image: codefactoryofficial/fc-nestjs-product
+    depends_on:
+      postgres_product:
+        condition: service_healthy
+    env_file:
+      - ./apps/product/.env
+
+  postgres_product:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - '6002:5432'
+    volumes:
+      - ./postgres/product:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+
+  order:
+    image: codefactoryofficial/fc-nestjs-order
+    depends_on:
+      mongo_order:
+        condition: service_healthy
+    env_file:
+      - ./apps/order/.env
+
+  mongo_order:
+    image: mongo:8
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongo
+      MONGO_INITDB_ROOT_PASSWORD: mongo
+    ports:
+      - '6003:27017'
+    volumes:
+      - ./mongo/order:/data/lib
+    command: mongod --quiet --logpath /dev/null
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+
+  payment:
+    image: codefactoryofficial/fc-nestjs-payment
+    depends_on:
+      postgres_payment:
+        condition: service_healthy
+    env_file:
+      - ./apps/payment/.env
+
+  postgres_payment:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - '6005:5432'
+    volumes:
+      - ./postgres/payment:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+
+  notification:
+    image: codefactoryofficial/fc-nestjs-notification
+    depends_on:
+      mongo_notification:
+        condition: service_healthy
+    env_file:
+      - ./apps/notification/.env
+
+  mongo_notification:
+    image: mongo:8
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongo
+      MONGO_INITDB_ROOT_PASSWORD: mongo
+    ports:
+      - '6006:27017'
+    volumes:
+      - ./mongo/notification:/data/lib
+    command: mongod --quiet --logpath /dev/null
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
